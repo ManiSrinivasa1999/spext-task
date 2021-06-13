@@ -1,164 +1,160 @@
 <template>
   <div class="flex items-center justify-center">
     <!-- component -->
-    <div class="bg-white card rounded-3xl p-10 flex flex-row z-10">
+    <div class="z-10 flex flex-row p-10 bg-white card rounded-3xl">
       <div class="w-3/5 rounded-3xl bg-img">
         <img
           src="../assets/codex-omega.png"
           alt="Music album photo"
-          class="object-cover rounded-3xl p-3"
+          class="object-cover p-3 rounded-3xl"
         />
       </div>
-      <div class="flex flex-col py-6 px-4">
+      <div class="flex flex-col px-4 py-6">
         <span class="text-md text-color-1">Now Playing</span>
-        <div class="flex flex-col text-color-2 my-auto">
-          <span class="font-extrabold text-2xl"> Purple Haze</span>
+        <div class="flex flex-col my-auto text-color-2">
+          <span class="text-2xl font-extrabold"> Purple Haze</span>
           <span class="font-bold text-md opacity-40">Jimi Hendrix</span>
-          <span class="font-semibold opacity-40 text-sm">Woodstock</span>
+          <span class="text-sm font-semibold opacity-40">Woodstock</span>
         </div>
-        <div class="w-full flex justify-between">
+        <div class="flex justify-between w-full">
           <button
-            class="
-              bg-img
-              font-bold
-              button-shadow
-              p-2
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center p-2 font-bold rounded-full  bg-img button-shadow focus:outline-none"
           >
             <img src="../assets/like.svg" class="w-4 h-4" />
           </button>
           <button
-            class="
-              bg-img
-              font-bold
-              p-2
-              rounded-full
-              inline-flex
-              button-shadow
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center p-2 font-bold rounded-full  bg-img button-shadow focus:outline-none"
           >
             <img src="../assets/playlist.svg" class="w-4 h-4" />
           </button>
           <button
-            class="
-              bg-img
-              font-bold
-              p-2
-              button-shadow
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center p-2 font-bold rounded-full  bg-img button-shadow focus:outline-none"
           >
             <img src="../assets/share.svg" class="w-4 h-4" />
           </button>
         </div>
       </div>
     </div>
-    <div class="bg-white side-card rounded-3xl pl-8 pr-4 flex flex-row -ml-12">
+    <div class="flex flex-row pl-8 pr-4 -ml-12 bg-white side-card rounded-3xl">
       <div class="flex flex-col p-4 ml-12">
         <div class="flex">
           <button
-            class="
-              font-bold
-              p-2
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center p-2 font-bold rounded-full  focus:outline-none"
           >
             <img src="../assets/shuffle.svg" class="w-4 h-4" />
           </button>
           <button
-            class="
-              font-bold
-              p-2
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center p-2 font-bold rounded-full  focus:outline-none"
           >
             <img src="../assets/repeat.svg" class="w-4 h-4" />
           </button>
           <button
-            class="
-              font-bold
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center font-bold rounded-full  focus:outline-none"
+            @click="pre"
           >
             <img src="../assets/playback.svg" class="w-4/5 h-4/5" />
           </button>
-          <button class="-mx-6 focus:outline-none">
-            <img src="../assets/playpause.svg" class="w-4/5 h-4/5" />
+          <button class="-mx-6 focus:outline-none" @click="toggleAudio">
+            <img :src="image" class="w-4/5 h-4/5" />
           </button>
           <button
-            class="
-              font-bold
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center font-bold rounded-full  focus:outline-none"
+            @click="next"
           >
             <img src="../assets/playnext.svg" class="w-4/5 h-4/5" />
           </button>
           <button
-            class="
-              font-bold
-              p-2
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center p-2 font-bold rounded-full  focus:outline-none"
           >
             <img src="../assets/reshuffle.svg" class="w-4 h-4" />
           </button>
           <button
-            class="
-              font-bold
-              p-2
-              rounded-full
-              inline-flex
-              items-center
-              focus:outline-none
-            "
+            class="inline-flex items-center p-2 font-bold rounded-full  focus:outline-none"
           >
             <img src="../assets/filter.svg" class="w-4 h-4" />
           </button>
         </div>
         <div class="w-full">
-          <div class="h-4 mb-4 w-full">
-            <div class="h-2 w-full playlist-bar relative">
-              <img
-                src="../assets/scroll.svg"
-                class="absolute w-8 h-8 -mt-2 -ml-2"
-              />
-            </div>
+          <div class="w-full h-4 mb-8">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              id="duration_slider"
+              class="w-full"
+            />
           </div>
           <div class="flex justify-between w-full">
-            <span class="font-normal text-color-1">2:01:00</span>
-            <span class="font-normal text-color-1">4:16:00</span>
+            <span class="font-normal text-color-1" v-html="elapsedTime()">
+              00:00
+            </span>
+            <span class="font-normal text-color-1" v-html="totalTime()">
+              00:00
+            </span>
           </div>
         </div>
       </div>
-      <span class="h-16 bg-vertical w-1 my-auto bg-pink-100 ml-8"></span>
+      <span class="w-1 h-16 my-auto ml-8 bg-pink-100 bg-vertical"></span>
+      <audio ref="player" class="hidden" id="audio-player">
+        <source
+          src="https://raw.githubusercontent.com/muhammederdem/mini-player/master/mp3/1.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      playbtn: require("../assets/playbtn.svg"),
+      playpause: require("../assets/playpause.svg"),
+      play: false,
+    };
+  },
+  computed: {
+    image() {
+      return this.play ? this.playbtn : this.playpause;
+    },
+  },
+  methods: {
+    toggleAudio() {
+      this.play = !this.play;
+      var audio = document.getElementById("audio-player");
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    },
+    convertTime(seconds) {
+      const format = (val) => `0${Math.floor(val)}`.slice(-2);
+      var hours = seconds / 3600;
+      var minutes = (seconds % 3600) / 60;
+      return [minutes, seconds % 60].map(format).join(":");
+    },
+    totalTime() {
+      var audio = this.$refs.player;
+      if (this.play) {
+        var seconds = audio.duration;
+        return this.convertTime(seconds);
+      }
+    },
+    elapsedTime() {
+      var audio = this.$refs.player;
+      if (audio) {
+        var seconds = audio.currentTime;
+        return this.convertTime(seconds);
+      } else {
+        return "00:00";
+      }
+    },
+  },
+};
+</script>
 <style>
 .bg-img {
   background-color: #f8f8f8;
@@ -168,7 +164,7 @@
   border-radius: 13px;
 }
 .text-color-1 {
-  font-feature-settings: 'liga' off;
+  font-feature-settings: "liga" off;
   color: #aeaeae;
   height: 22px;
   font-family: Roboto;
@@ -200,5 +196,94 @@
     inset 3px 3px 5px rgba(0, 0, 0, 0.05), inset -3px -3px 5px #ffffff;
   border-radius: 37px;
   background: #dedde3;
+}
+input[type="range"] {
+  height: 35px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+input[type="range"]:focus {
+  outline: none;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #222222;
+  background: #5d24d6;
+  border-radius: 19px;
+  border: 3px solid #dedde3;
+}
+input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #a7aaa7;
+  border: 5px solid #ffffff;
+  height: 24px;
+  width: 24px;
+  border-radius: 14px;
+  background: #5d24d6;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -11px;
+}
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: #5d24d6;
+}
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #222222;
+  background: #5d24d6;
+  border-radius: 19px;
+  border: 3px solid #dedde3;
+}
+input[type="range"]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #a7aaa7;
+  border: 5px solid #ffffff;
+  height: 24px;
+  width: 24px;
+  border-radius: 14px;
+  background: #5d24d6;
+  cursor: pointer;
+}
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type="range"]::-ms-fill-lower {
+  background: #5d24d6;
+  border: 3px solid #dedde3;
+  border-radius: 38px;
+  box-shadow: 0px 0px 0px #222222;
+}
+input[type="range"]::-ms-fill-upper {
+  background: #5d24d6;
+  border: 3px solid #dedde3;
+  border-radius: 38px;
+  box-shadow: 0px 0px 0px #222222;
+}
+input[type="range"]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 0px 0px 0px #a7aaa7;
+  border: 5px solid #ffffff;
+  height: 24px;
+  width: 24px;
+  border-radius: 14px;
+  background: #5d24d6;
+  cursor: pointer;
+}
+input[type="range"]:focus::-ms-fill-lower {
+  background: #5d24d6;
+}
+input[type="range"]:focus::-ms-fill-upper {
+  background: #5d24d6;
 }
 </style>
